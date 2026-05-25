@@ -4,6 +4,68 @@ Storage Detective is a Windows desktop cleanup assistant that scans common app-d
 
 The MVP is intentionally cautious: it never permanently deletes files, never cleans automatically, and only marks low-risk cache/temp findings as cleanup eligible.
 
+## Download and Use
+
+Storage Detective currently runs from source. A packaged installer can be added later, but Windows users can run the app today with Python.
+
+### 1. Install Python
+
+Install Python 3.11 or newer from [python.org](https://www.python.org/downloads/windows/). During installation, enable **Add python.exe to PATH**.
+
+### 2. Download the App
+
+Option A: download ZIP
+
+1. Open the GitHub project page.
+2. Select **Code**.
+3. Select **Download ZIP**.
+4. Extract the ZIP somewhere easy to find, such as your Desktop or Documents folder.
+
+Option B: clone with Git
+
+```powershell
+git clone https://github.com/abi1010-git/windows-appdata-cleanup-assistant.git
+cd windows-appdata-cleanup-assistant
+```
+
+If you used the ZIP option, open PowerShell and move into the extracted folder instead:
+
+```powershell
+cd path\to\windows-appdata-cleanup-assistant
+```
+
+### 3. Create the App Environment
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip
+pip install -r requirements.txt
+```
+
+If PowerShell blocks the activation script, run this once, then activate again:
+
+```powershell
+Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
+```
+
+### 4. Start Storage Detective
+
+```powershell
+python main.py
+```
+
+### 5. Use the App Safely
+
+1. Select **Start Scan** on the dashboard.
+2. Review the results table after the scan finishes.
+3. Select a folder to read the explanation and recommendation.
+4. Use **Open** to inspect the folder in File Explorer.
+5. Use **Move To Recycle Bin** only for items you want to remove.
+6. Use **Ignore** for folders you want future scans to skip.
+
+Storage Detective never permanently deletes files. Cleanup actions move selected eligible folders to the Recycle Bin after confirmation.
+
 ## Features
 
 - PyQt6 Windows desktop interface with dashboard, results, analytics, settings, and scan history pages.
@@ -37,17 +99,17 @@ storage-detective/
 `-- tests/
 ```
 
-## Setup
+## Developer Setup
 
 ```powershell
-cd C:\Users\abhia\Documents\storage-detective
+cd C:\path\to\windows-appdata-cleanup-assistant
 py -3.11 -m venv .venv
 .\.venv\Scripts\Activate.ps1
 python -m pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-## Run
+## Developer Run
 
 ```powershell
 python main.py
