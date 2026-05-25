@@ -6,56 +6,20 @@ The MVP is intentionally cautious: it never permanently deletes files, never cle
 
 ## Download and Use
 
-Storage Detective currently runs from source. A packaged installer can be added later, but Windows users can run the app today with Python.
+Storage Detective is designed for Windows users who do not want to install Python or use a terminal.
 
-### 1. Install Python
-
-Install Python 3.11 or newer from [python.org](https://www.python.org/downloads/windows/). During installation, enable **Add python.exe to PATH**.
-
-### 2. Download the App
-
-Option A: download ZIP
+### 1. Download the Windows App
 
 1. Open the GitHub project page.
-2. Select **Code**.
-3. Select **Download ZIP**.
-4. Extract the ZIP somewhere easy to find, such as your Desktop or Documents folder.
+2. Select **Releases** on the right side of the page.
+3. Download `Storage-Detective-Windows.zip` from the latest release.
+4. Right-click the ZIP file and select **Extract All**.
+5. Open the extracted folder.
+6. Double-click `Storage Detective.exe`.
 
-Option B: clone with Git
+If Windows SmartScreen warns that the app is from an unknown publisher, select **More info**, then **Run anyway**. This can happen because the MVP is not code-signed yet.
 
-```powershell
-git clone https://github.com/abi1010-git/windows-appdata-cleanup-assistant.git
-cd windows-appdata-cleanup-assistant
-```
-
-If you used the ZIP option, open PowerShell and move into the extracted folder instead:
-
-```powershell
-cd path\to\windows-appdata-cleanup-assistant
-```
-
-### 3. Create the App Environment
-
-```powershell
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-python -m pip install --upgrade pip
-pip install -r requirements.txt
-```
-
-If PowerShell blocks the activation script, run this once, then activate again:
-
-```powershell
-Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
-```
-
-### 4. Start Storage Detective
-
-```powershell
-python main.py
-```
-
-### 5. Use the App Safely
+### 2. Use the App Safely
 
 1. Select **Start Scan** on the dashboard.
 2. Review the results table after the scan finishes.
@@ -65,6 +29,23 @@ python main.py
 6. Use **Ignore** for folders you want future scans to skip.
 
 Storage Detective never permanently deletes files. Cleanup actions move selected eligible folders to the Recycle Bin after confirmation.
+
+## Build a Windows App Package
+
+Developers can build the same no-Python-needed Windows package locally:
+
+```powershell
+.\scripts\build_windows.ps1
+```
+
+The build creates:
+
+```text
+dist\Storage Detective\Storage Detective.exe
+dist\Storage-Detective-Windows.zip
+```
+
+GitHub Actions also builds `Storage-Detective-Windows.zip` automatically on pushes to `main`, manual workflow runs, and published releases.
 
 ## Features
 
@@ -106,7 +87,7 @@ cd C:\path\to\windows-appdata-cleanup-assistant
 py -3.11 -m venv .venv
 .\.venv\Scripts\Activate.ps1
 python -m pip install --upgrade pip
-pip install -r requirements.txt
+pip install -r requirements-dev.txt
 ```
 
 ## Developer Run
@@ -139,4 +120,4 @@ The tests use temporary directories and mocked cleanup calls. They do not delete
 
 ## Future Packaging
 
-Packaging is out of scope for this MVP, but the app is structured so a future release can add PyInstaller or MSIX packaging without changing scanner or cleanup behavior.
+The current package is a portable ZIP. A future version can add a signed installer through MSIX, Inno Setup, or WiX without changing scanner or cleanup behavior.
